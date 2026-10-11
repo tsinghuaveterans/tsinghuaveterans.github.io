@@ -59,3 +59,15 @@ const observer = new IntersectionObserver((entries) => {
   if (visible) setActiveNavigation(visible.target);
 }, { threshold: [0.35, 0.55, 0.7], rootMargin: '-18% 0px -18% 0px' });
 sections.forEach((section) => observer.observe(section));
+
+const contactForm = document.querySelector('#contact-form');
+contactForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(contactForm);
+  const name = formData.get('name').trim();
+  const email = formData.get('email').trim();
+  const subject = formData.get('subject').trim();
+  const message = formData.get('message').trim();
+  const body = `称呼：${name}\n邮箱：${email}\n\n${message}`;
+  window.location.href = `mailto:tsinghuaveterans1996@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
