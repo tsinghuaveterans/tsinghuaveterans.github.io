@@ -11,6 +11,7 @@ const dots = document.querySelector('.gallery-dots');
 let current = 0;
 let paused = false;
 let touchStart = 0;
+let suppressCardClick = false;
 
 cards.forEach((_, index) => {
   const dot = document.createElement('button');
@@ -36,10 +37,15 @@ viewport.addEventListener('mouseleave', () => { paused = false; });
 viewport.addEventListener('pointerdown', (event) => { touchStart = event.clientX; paused = true; });
 viewport.addEventListener('pointerup', (event) => {
   const distance = event.clientX - touchStart;
-  if (Math.abs(distance) > 36) showCard(current + (distance < 0 ? 1 : -1));
+  if (Math.abs(distance) > 36) {
+    suppressCardClick = true;
+    showCard(current + (distance < 0 ? 1 : -1));
+    window.setTimeout(() => { suppressCardClick = false; }, 250);
+  }
   setTimeout(() => { paused = false; }, 700);
 });
 track.addEventListener('click', (event) => {
+  if (suppressCardClick) return;
   const card = event.target.closest('.photo-card');
   if (!card) return;
   const image = card.querySelector('img');
