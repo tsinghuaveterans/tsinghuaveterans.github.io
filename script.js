@@ -71,22 +71,3 @@ contactForm.addEventListener('submit', (event) => {
   const body = `称呼：${name}\n邮箱：${email}\n\n${message}`;
   window.location.href = `mailto:tsinghuaveterans1996@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
-
-const visitorCounter = document.querySelector('.visitor-counter');
-
-if (visitorCounter) {
-  const revealEstablishedCounter = () => {
-    const countMatch = visitorCounter.textContent.match(/浏览量：\s*([\d,]+)/);
-    const count = countMatch ? Number(countMatch[1].replaceAll(',', '')) : 0;
-
-    if (count >= 5) {
-      visitorCounter.hidden = false;
-      counterObserver.disconnect();
-    }
-  };
-
-  const counterObserver = new MutationObserver(revealEstablishedCounter);
-  counterObserver.observe(visitorCounter, { childList: true, subtree: true, characterData: true });
-  window.setTimeout(revealEstablishedCounter, 1200);
-  window.setTimeout(revealEstablishedCounter, 3200);
-}
